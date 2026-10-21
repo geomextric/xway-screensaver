@@ -21,7 +21,7 @@ jobs:
       - name: Install build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends debhelper dpkg-dev
+          sudo apt-get install -y --no-install-recommends build-essential debhelper dpkg-dev
 
       - name: Check the tag, debian/changelog and __version__ agree
         if: startsWith(github.ref, 'refs/tags/v')
