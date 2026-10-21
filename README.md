@@ -12,6 +12,7 @@ Animations:
 
 - **Polyglow**: bouncing polygons with fading, colour-shifting neon trails
 - **Lightspeed**: stars streaking out from the middle of your desktop (above)
+- **Ripples**: neon rings spreading out from random points across your desktop
 
 ![Close-up of Polyglow's neon trails](docs/polyglow.png)
 
