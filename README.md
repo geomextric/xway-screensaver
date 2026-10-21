@@ -39,7 +39,16 @@ that; it draws on top of the screensaver.
 
 ## Install
 
-### Ubuntu, Pop!_OS, Debian
+### Ubuntu 24.04, Pop!_OS 24.04 (PPA)
+
+Install from the PPA to get updates with the rest of your system:
+
+```sh
+sudo add-apt-repository ppa:geomex/ppa
+sudo apt install xway-screensaver
+```
+
+### Other Debian-based systems
 
 Download the `.deb` from [Releases](https://github.com/geomextric/xway-screensaver/releases)
 and install it; apt pulls in everything it needs:
