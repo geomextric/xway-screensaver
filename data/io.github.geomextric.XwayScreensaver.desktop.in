@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=xway-screensaver
+GenericName=Screensaver Settings
+Comment=Neon screensaver animations for Wayland
+Exec=@BIN@ settings
+Icon=io.github.geomextric.XwayScreensaver
+Categories=Settings;DesktopSettings;
+Keywords=screensaver;neon;polyglow;lightspeed;idle;
+StartupNotify=true

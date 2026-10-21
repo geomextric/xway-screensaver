@@ -1,0 +1,29 @@
+Source: xway-screensaver
+Section: x11
+Priority: optional
+Maintainer: Geomex <geomex_github@x-mail-pro.info>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/geomextric/xway-screensaver
+Vcs-Git: https://github.com/geomextric/xway-screensaver.git
+Vcs-Browser: https://github.com/geomextric/xway-screensaver
+Rules-Requires-Root: no
+
+Package: xway-screensaver
+Architecture: all
+Depends: ${misc:Depends},
+         python3,
+         python3-gi,
+         python3-gi-cairo,
+         python3-cairo,
+         gir1.2-gtk-3.0,
+         gir1.2-gtk-4.0,
+         gir1.2-gtklayershell-0.1,
+         swayidle
+Description: neon screensaver animations for Wayland desktops
+ xway-screensaver shows neon screensaver animations, such as Polyglow and
+ Lightspeed, as one continuous scene across every monitor. It works on
+ Wayland compositors with the wlr-layer-shell and ext-idle-notify
+ protocols, such as COSMIC, KDE Plasma, Sway, Hyprland and niri.
+ .
+ It does not lock the screen; keep your desktop's own lock screen for that.

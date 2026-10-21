@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+
+# Debian build output
+debian/xway-screensaver/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars
+debian/*.debhelper.log

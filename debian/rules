@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+PKG := debian/xway-screensaver
+APP_ID := io.github.geomextric.XwayScreensaver
+
+%:
+	dh $@
+
+# Ship the idle service disabled: each user opts in from the settings window.
+override_dh_installsystemduser:
+	dh_installsystemduser --no-enable
+
+override_dh_auto_install:
+	install -d $(PKG)/usr/lib/xway-screensaver $(PKG)/usr/bin \
+		$(PKG)/usr/lib/systemd/user $(PKG)/usr/share/applications \
+		$(PKG)/usr/share/icons/hicolor/scalable/apps
+	install -m 644 data/$(APP_ID).svg $(PKG)/usr/share/icons/hicolor/scalable/apps/
+	cp -r bin xway_screensaver $(PKG)/usr/lib/xway-screensaver/
+	find $(PKG)/usr/lib/xway-screensaver -name __pycache__ -prune -exec rm -rf {} +
+	ln -s ../lib/xway-screensaver/bin/xway-screensaver $(PKG)/usr/bin/xway-screensaver
+	sed 's|@BIN@|/usr/bin/xway-screensaver|' data/xway-screensaver.service.in \
+		> $(PKG)/usr/lib/systemd/user/xway-screensaver.service
+	sed 's|@BIN@|/usr/bin/xway-screensaver|' data/$(APP_ID).desktop.in \
+		> $(PKG)/usr/share/applications/$(APP_ID).desktop

@@ -1,0 +1,11 @@
+[Unit]
+Description=Start xway-screensaver when the session goes idle
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=@BIN@ idle
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

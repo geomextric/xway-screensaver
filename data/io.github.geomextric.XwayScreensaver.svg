@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c0d38"/>
+      <stop offset="1" stop-color="#05030d"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00f0ff"/>
+      <stop offset="1" stop-color="#4a5cff"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff2bd6"/>
+      <stop offset="1" stop-color="#ffa21f"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="tile">
+      <rect x="16" y="16" width="224" height="224" rx="52"/>
+    </clipPath>
+  </defs>
+
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#bg)"/>
+
+  <g clip-path="url(#tile)" fill="none" stroke-linejoin="round">
+    <!-- Cyan polygon and its fading trail -->
+    <g stroke="url(#cyan)" stroke-width="5" filter="url(#glow)">
+      <polygon points="42,114 132,74 184,140 86,182" opacity="0.22"/>
+      <polygon points="51,103 141,63 193,129 95,171" opacity="0.5"/>
+      <polygon points="60,92 150,52 202,118 104,160"/>
+    </g>
+    <!-- Pink polygon and its fading trail -->
+    <g stroke="url(#pink)" stroke-width="5" filter="url(#glow)">
+      <polygon points="96,184 148,112 224,134 196,188" opacity="0.22"/>
+      <polygon points="86,192 138,120 214,142 186,196" opacity="0.5"/>
+      <polygon points="76,200 128,128 204,150 176,204"/>
+    </g>
+    <!-- Hot white cores on the newest shapes -->
+    <g stroke="#ffffff" stroke-width="1.6" opacity="0.85">
+      <polygon points="60,92 150,52 202,118 104,160"/>
+      <polygon points="76,200 128,128 204,150 176,204"/>
+    </g>
+  </g>
+
+  <rect x="17" y="17" width="222" height="222" rx="51" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="2"/>
+</svg>

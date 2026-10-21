@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# Python bytecode written at runtime (when run as root) is not owned by the
+# package, so dpkg would leave it and the directories behind.
+find /usr/lib/xway-screensaver -name __pycache__ -type d -prune -exec rm -rf {} + 2>/dev/null || true
+
+#DEBHELPER#
