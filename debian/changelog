@@ -1,3 +1,11 @@
+xway-screensaver (0.2.2) noble; urgency=medium
+
+  * Fix the screensaver freezing on its first frame when a frame takes
+    longer than 16 ms to render (heavier settings): the animation is now
+    driven by the frame clock instead of a timer.
+
+ -- Geomex <geomex_github@x-mail-pro.info>  Thu, 22 Oct 2026 09:51:31 +1000
+
 xway-screensaver (0.2.1) noble; urgency=medium
 
   * Settings window: sliders line up across groups and values are no longer
