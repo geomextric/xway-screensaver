@@ -1,0 +1,68 @@
+# Builds the .deb on every push and pull request, and on a v* tag publishes it
+# as a GitHub release. The PPA upload stays manual: it needs a Launchpad
+# signing key.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  deb:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends debhelper dpkg-dev
+
+      - name: Check the tag, debian/changelog and __version__ agree
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          changelog=$(dpkg-parsechangelog -S Version)
+          module=$(python3 -c 'import xway_screensaver; print(xway_screensaver.__version__)')
+          tag=${GITHUB_REF_NAME#v}
+          if [ "$changelog" != "$tag" ] || [ "$module" != "$tag" ]; then
+            echo "tag $tag, debian/changelog $changelog, __version__ $module" >&2
+            exit 1
+          fi
+
+      - name: Build the .deb
+        run: |
+          dpkg-buildpackage -us -uc -b
+          mv ../xway-screensaver_*_all.deb .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb
+          path: xway-screensaver_*_all.deb
+
+      - name: Publish the GitHub release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          {
+            # The changelog entry's bullet points, as a Markdown list.
+            dpkg-parsechangelog -S Changes | sed -n 's/^  \* /- /p; s/^    \([^ ]\)/  \1/p'
+            cat <<NOTES
+
+          **Install or upgrade on Ubuntu, Pop!_OS or Debian**
+
+          \`\`\`sh
+          sudo apt install ./xway-screensaver_${version}_all.deb
+          \`\`\`
+
+          Needs a Wayland desktop with wlr-layer-shell and ext-idle-notify: COSMIC (tested), KDE Plasma 6, Sway, Hyprland, niri. GNOME isn't supported. It doesn't lock the screen.
+          NOTES
+          } > notes.md
+          gh release create "$GITHUB_REF_NAME" xway-screensaver_*_all.deb \
+            --title "xway-screensaver $version" --notes-file notes.md
