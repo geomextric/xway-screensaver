@@ -1,3 +1,11 @@
+xway-screensaver (0.3.0) noble; urgency=medium
+
+  * New animation: Ripples, neon rings spreading out from random points
+    across the desktop.
+  * Releases are now built and published by GitHub Actions.
+
+ -- Geomex <geomex_github@x-mail-pro.info>  Thu, 22 Oct 2026 09:59:26 +1000
+
 xway-screensaver (0.2.2) noble; urgency=medium
 
   * Fix the screensaver freezing on its first frame when a frame takes
