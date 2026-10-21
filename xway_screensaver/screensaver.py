@@ -25,7 +25,6 @@ from gi.repository import Gdk, GLib, Gtk, GtkLayerShell  # noqa: E402
 from . import animations, cli, config  # noqa: E402
 from .renderer import Renderer  # noqa: E402
 
-FPS = 60
 GRACE = 1.0           # seconds to ignore input after start
 MOVE_THRESHOLD = 12   # px of pointer travel that dismisses
 
@@ -42,10 +41,14 @@ class Screensaver:
         self.anim = anim_cls(bounds, anim_cfg)
         self.renderer = Renderer([(g.x, g.y, g.width, g.height, m.get_scale_factor())
                                   for g, m in zip(geoms, monitors)])
-        self.start = self.last = time.monotonic()
+        self.start = time.monotonic()
+        self.last_frame = None
         self.pointer_origin = None
         self.windows = [self._make_window(i, m) for i, m in enumerate(monitors)]
-        GLib.timeout_add(1000 // FPS, self._tick)
+        # Drive the animation from a frame clock, not a timer. A timer outranks
+        # GTK's redraw in the main loop, so if a frame takes longer than the
+        # timer interval the timer is always due and the screen never repaints.
+        self.windows[0].get_child().add_tick_callback(self._tick)
 
     def _make_window(self, index, monitor):
         win = Gtk.Window()
@@ -93,14 +96,15 @@ class Screensaver:
             Gtk.main_quit()
         return True
 
-    def _tick(self):
-        now = time.monotonic()
-        dt, self.last = min(now - self.last, 0.1), now
-        self.anim.step(dt)
+    def _tick(self, _area, clock):
+        now = clock.get_frame_time() / 1e6
+        if self.last_frame is not None:
+            self.anim.step(min(now - self.last_frame, 0.1))
+        self.last_frame = now
         self.renderer.render(self.anim)
         for win in self.windows:
             win.queue_draw()
-        return True
+        return GLib.SOURCE_CONTINUE
 
     def _draw(self, _area, cr, index, geom):
         self.renderer.paint(index, cr, geom.x, geom.y)
