@@ -6,13 +6,21 @@ Neon screensaver animations for Wayland desktops. One animation runs as a
 single scene across every monitor, so shapes and stars travel from screen to
 screen.
 
+![Lightspeed running across three monitors](docs/lightspeed.png)
+
 Animations:
 
 - **Polyglow**: bouncing polygons with fading, colour-shifting neon trails
-- **Lightspeed**: stars streaking out from the middle of your desktop
+- **Lightspeed**: stars streaking out from the middle of your desktop (above)
+
+![Close-up of Polyglow's neon trails](docs/polyglow.png)
 
 A settings window lets you pick the animation (or a random one each time),
 tune it with a live preview, and choose how long until it starts.
+
+<img src="docs/settings.png" width="420" alt="The settings window, with a live preview of Polyglow and sliders for shapes, glow and colour">
+
+The images are rendered by xway-screensaver's own drawing code.
 
 ## Does it work on my desktop?
 

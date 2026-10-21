@@ -128,23 +128,32 @@ class SettingsWindow(Gtk.ApplicationWindow):
         while child := self.anim_box.get_first_child():
             self.anim_box.remove(child)
         self.scales = {}
-        group, rows = None, None
+        # One grid for every group, so all the sliders line up.
+        rows = grid()
+        self.anim_box.append(rows)
+        group, row = None, 0
         for s in self.anim_cls.SETTINGS:
             if s.group != group:
-                group, rows = s.group, grid()
-                self.anim_box.append(heading(group))
-                self.anim_box.append(rows)
+                group = s.group
+                rows.attach(heading(group), 0, row, 3, 1)
+                row += 1
             scale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, s.lo, s.hi, s.step)
             scale.set_digits(s.digits)
-            scale.set_draw_value(True)
-            scale.set_value_pos(Gtk.PositionType.RIGHT)
             scale.set_hexpand(True)
+            value = Gtk.Label(width_chars=6, xalign=1)
+            value.add_css_class("numeric")
             scale.set_value(self.anim_cfg[s.key])
-            scale.connect("value-changed", self.on_scale, s)
-            row = len(self.scales)
+            self.show_value(value, scale.get_value(), s.digits)
+            scale.connect("value-changed", self.on_scale, s, value)
             rows.attach(Gtk.Label(label=s.label, xalign=0), 0, row, 1, 1)
             rows.attach(scale, 1, row, 1, 1)
+            rows.attach(value, 2, row, 1, 1)
             self.scales[s.key] = scale
+            row += 1
+
+    @staticmethod
+    def show_value(label, value, digits):
+        label.set_label(f"{value:.{digits}f}")
 
     def on_animation(self, _dropdown, _pspec):
         self.cfg["animation"] = self.anim_cls.NAME
@@ -155,9 +164,10 @@ class SettingsWindow(Gtk.ApplicationWindow):
         self.cfg["random"] = switch.get_active()
         self.queue_save()
 
-    def on_scale(self, scale, setting):
+    def on_scale(self, scale, setting, label):
         value = scale.get_value()
         self.anim_cfg[setting.key] = int(round(value)) if setting.digits == 0 else round(value, setting.digits)
+        self.show_value(label, value, setting.digits)
         self.queue_save()
 
     def on_reset(self, _button):
