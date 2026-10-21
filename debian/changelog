@@ -1,3 +1,10 @@
+xway-screensaver (0.2.1) noble; urgency=medium
+
+  * Settings window: sliders line up across groups and values are no longer
+    clipped.
+
+ -- Geomex <geomex_github@x-mail-pro.info>  Wed, 21 Oct 2026 11:52:47 +1000
+
 xway-screensaver (0.2.0) noble; urgency=medium
 
   * First release: Polyglow and Lightspeed animations, settings window with
