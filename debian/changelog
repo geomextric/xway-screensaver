@@ -1,3 +1,9 @@
+xway-screensaver (0.3.1) noble; urgency=medium
+
+  * Releases are now uploaded to the Launchpad PPA by GitHub Actions as well.
+
+ -- Geomex <geomex_github@x-mail-pro.info>  Thu, 22 Oct 2026 12:15:20 +1000
+
 xway-screensaver (0.3.0) noble; urgency=medium
 
   * New animation: Ripples, neon rings spreading out from random points
